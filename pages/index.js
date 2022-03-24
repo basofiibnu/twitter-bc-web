@@ -5,7 +5,7 @@ import Sidebar from '../components/Sidebar';
 import Widgets from '../components/Widgets';
 
 const style = {
-  wrapper: `flex justify-center h-screen w-screen select-none bg-[#15202b] text-white`,
+  wrapper: `flex justify-center h-full w-screen select-none bg-[#15202b] text-white`,
   content: `max-w-[1400px] w-3/4 mx-auto flex justify-between`,
 };
 
