@@ -1,5 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { useRouter } from 'next/router';
+import Modal from 'react-modal';
 import {
   RiHome7Line,
   RiHome7Fill,
@@ -19,6 +20,8 @@ import {
 } from 'react-icons/bs';
 import SidebarOption from './SidebarOption';
 import { TwitterContext } from '../context/TwitterContext';
+import ProfileImageMinter from './Profile/mintingModal/ProfileImageMinter';
+import { customStyles } from '../lib/constants';
 
 const style = {
   wrapper: `flex-[0.7] px-8 flex flex-col`,
@@ -129,6 +132,13 @@ const Sidebar = ({ initialSelectedIcon = 'Home' }) => {
           </div>
         </div>
       </div>
+      <Modal
+        isOpen={Boolean(router.query.mint)}
+        onRequestClose={() => router.back()}
+        style={customStyles}
+      >
+        <ProfileImageMinter />
+      </Modal>
     </div>
   );
 };
