@@ -26,7 +26,8 @@ const style = {
 
 const TweetBox = () => {
   const [tweetMessage, setTweetMessage] = useState('');
-  const { currentAccount } = useContext(TwitterContext);
+  const { currentAccount, currentUser, tweets } =
+    useContext(TwitterContext);
 
   const postTweet = async (event) => {
     event.preventDefault();
@@ -67,14 +68,12 @@ const TweetBox = () => {
     <div className={style.wrapper}>
       <div className={style.tweetBoxLeft}>
         <img
-          //   src={currentUser.profileImage}
-          //   className={
-          //     currentUser.isProfileImageNft
-          //       ? `${style.profileImage} smallHex`
-          //       : style.profileImage
-          //   }
-          src="https://static.vecteezy.com/system/resources/thumbnails/002/002/403/small/man-with-beard-avatar-character-isolated-icon-free-vector.jpg"
-          className={style.profileImage}
+          className={
+            currentUser?.isProfileImageNft
+              ? `${style.profileImage} smallHex`
+              : style.profileImage
+          }
+          src={currentUser?.profileImage}
           alt="profile-pic"
         />
       </div>

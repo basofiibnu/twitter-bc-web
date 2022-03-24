@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { BsStars } from 'react-icons/bs';
 import Post from '../Post';
 import TweetBox from './TweetBox';
+import { TwitterContext } from '../../context/TwitterContext';
 
 const style = {
   wrapper: `flex-[2] border-r border-l border-[#38444d] overflow-y-scroll`,
@@ -9,46 +10,9 @@ const style = {
   headerTitle: `text-xl font-bold`,
 };
 
-const tweets = [
-  {
-    displayName: 'Qazi',
-    username: 'loremloremlorem',
-    avatar:
-      'https://static.vecteezy.com/system/resources/thumbnails/002/002/403/small/man-with-beard-avatar-character-isolated-icon-free-vector.jpg',
-    text: 'gm',
-    isProfileImageNft: false,
-    timestamp: '2020-06-01T12:00:00.000Z',
-  },
-  {
-    displayName: 'Qazi',
-    username: 'loremloremlorem',
-    avatar:
-      'https://static.vecteezy.com/system/resources/thumbnails/002/002/403/small/man-with-beard-avatar-character-isolated-icon-free-vector.jpg',
-    text: 'gm',
-    isProfileImageNft: false,
-    timestamp: '2020-06-01T12:00:00.000Z',
-  },
-  {
-    displayName: 'Qazi',
-    username: 'loremloremlorem',
-    avatar:
-      'https://static.vecteezy.com/system/resources/thumbnails/002/002/403/small/man-with-beard-avatar-character-isolated-icon-free-vector.jpg',
-    text: 'gm',
-    isProfileImageNft: true,
-    timestamp: '2020-06-01T12:00:00.000Z',
-  },
-  {
-    displayName: 'Qazi',
-    username: 'loremloremlorem',
-    avatar:
-      'https://static.vecteezy.com/system/resources/thumbnails/002/002/403/small/man-with-beard-avatar-character-isolated-icon-free-vector.jpg',
-    text: 'gm',
-    isProfileImageNft: false,
-    timestamp: '2020-06-01T12:00:00.000Z',
-  },
-];
-
 const Feed = () => {
+  const { tweets } = useContext(TwitterContext);
+
   return (
     <div className={`${style.wrapper} no-scrollbar`}>
       <div className={style.header}>
@@ -59,13 +23,14 @@ const Feed = () => {
       {tweets.map((tweet, index) => (
         <Post
           key={index}
-          displayName={tweet.displayName}
-          userName={`${tweet.username.slice(0, 3)}...${
-            tweet.username - 3
-          }`}
-          avatar={tweet.avatar}
-          text={tweet.text}
-          isProfileImageNft={tweet.isProfileImageNft}
+          displayName={tweet.author.name}
+          userName={`${tweet.author.walletAddress.slice(
+            0,
+            4,
+          )}...${tweet.author.walletAddress.slice(-4)}`}
+          avatar={tweet.author.profileImage}
+          text={tweet.tweet}
+          isProfileImageNft={tweet.author.isProfileImageNft}
           timestamp={tweet.timestamp}
         />
       ))}

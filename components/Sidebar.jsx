@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { useRouter } from 'next/router';
 import {
   RiHome7Line,
   RiHome7Fill,
@@ -17,6 +18,7 @@ import {
   BsPersonFill,
 } from 'react-icons/bs';
 import SidebarOption from './SidebarOption';
+import { TwitterContext } from '../context/TwitterContext';
 
 const style = {
   wrapper: `flex-[0.7] px-8 flex flex-col`,
@@ -35,6 +37,9 @@ const style = {
 
 const Sidebar = ({ initialSelectedIcon = 'Home' }) => {
   const [selected, setSelected] = useState(initialSelectedIcon);
+  const router = useRouter();
+  const { currentAccount, currentUser } = useContext(TwitterContext);
+
   return (
     <div className={style.wrapper}>
       <div className={style.twitterIconContainer}>
@@ -92,14 +97,32 @@ const Sidebar = ({ initialSelectedIcon = 'Home' }) => {
           text="More"
           setSelected={setSelected}
         />
-        <div className={style.tweetButton}>Mint</div>
+        <div
+          className={style.tweetButton}
+          onClick={() => router.push(`/?mint=${currentAccount}`)}
+        >
+          Mint
+        </div>
       </div>
       <div className={style.profileButton}>
-        <div className={style.profileLeft}></div>
+        <div className={style.profileLeft}>
+          <img
+            src={currentUser?.profileImage}
+            alt="profile"
+            className={
+              currentUser?.isProfileImageNft
+                ? `${style.profileImage} smallHex`
+                : style.profileImage
+            }
+          />
+        </div>
         <div className={style.profileRight}>
           <div className={style.details}>
-            <div className={style.name}>idkyo</div>
-            <div className={style.handle}>loremloremloremlorem</div>
+            <div className={style.name}>{currentUser?.name}</div>
+            <div className={style.handle}>
+              {currentAccount.slice(0, 6)}...
+              {currentAccount.slice(39)}
+            </div>
           </div>
           <div className={style.moreContainer}>
             <FiMoreHorizontal />
