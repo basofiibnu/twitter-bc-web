@@ -6,7 +6,7 @@ export const tweetSchema = {
     {
       name: 'tweet',
       title: 'Tweet',
-      type: 'string,',
+      type: 'string',
     },
     {
       name: 'timestamp',
