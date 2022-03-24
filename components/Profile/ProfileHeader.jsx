@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router';
-import React from 'react';
+import React, { useContext } from 'react';
 import { BsArrowLeftShort } from 'react-icons/bs';
+import { TwitterContext } from '../../context/TwitterContext';
 
 const style = {
   wrapper: `border-[#38444d] border-b`,
@@ -21,7 +22,10 @@ const style = {
 
 const ProfileHeader = () => {
   const router = useRouter();
-  const isProfileImageNft = true;
+  const { currentUser } = useContext(TwitterContext);
+
+  if (!currentUser) return;
+
   return (
     <div className={style.wrapper}>
       <div className={style.header}>
@@ -32,13 +36,15 @@ const ProfileHeader = () => {
           <BsArrowLeftShort />
         </div>
         <div className={style.details}>
-          <div className={style.primary}>idkyo</div>
-          <div className={style.secondary}>5 Tweets</div>
+          <div className={style.primary}>{currentUser?.name}</div>
+          <div className={style.secondary}>
+            {currentUser?.tweets?.length} Tweets
+          </div>
         </div>
       </div>
       <div className={style.coverPhotoContainer}>
         <img
-          src="https://kajabi-storefronts-production.kajabi-cdn.com/kajabi-storefronts-production/site/18907/products/cIkAZXNyRZimRw4uqXVX_gDvYTtwQsC33KZqCtbpB_image.jpg"
+          src={currentUser?.coverImage}
           alt="cover"
           className={style.coverPhoto}
         />
@@ -46,15 +52,17 @@ const ProfileHeader = () => {
       <div className={style.profileImageContainer}>
         <div
           className={
-            isProfileImageNft ? 'hex' : style.profileImageContainer
+            currentUser?.isProfileImageNft
+              ? 'hex'
+              : style.profileImageContainer
           }
         >
           {' '}
           <img
-            src="https://pbs.twimg.com/profile_images/1282571486465855491/98xO6N0F_400x400.jpg"
+            src={currentUser?.profileImage}
             alt="cover"
             className={
-              isProfileImageNft
+              currentUser?.isProfileImageNft
                 ? style.profileImageNft
                 : style.profileImage
             }
@@ -63,9 +71,12 @@ const ProfileHeader = () => {
       </div>
       <div className={style.details}>
         <div>
-          <div className={style.primary}>idkyo</div>
+          <div className={style.primary}>{currentUser?.name}</div>
         </div>
-        <div className={style.secondary}>loremloremlorem</div>
+        <div className={style.secondary}>
+          {currentUser?.walletAddress?.slice(0, 4)}...
+          {currentUser?.walletAddress?.slice(36)}
+        </div>
       </div>
       <div className={style.nav}>
         <div className={style.activeNav}>Tweets</div>
