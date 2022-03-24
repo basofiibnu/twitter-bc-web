@@ -33,7 +33,7 @@ export const TwitterProvider = ({ children }) => {
     }
   };
 
-  const connectWallet = async () => {
+  const connectToWallet = async () => {
     if (!window.ethereum) return setAppStatus('noMetaMask');
     try {
       setAppStatus('loading');
@@ -44,6 +44,7 @@ export const TwitterProvider = ({ children }) => {
 
       if (addressArray.length > 0) {
         setCurrentAccount(addressArray[0]);
+        setAppStatus('connected');
       } else {
         router.push('/');
         setAppStatus('notConnected');
@@ -55,7 +56,7 @@ export const TwitterProvider = ({ children }) => {
 
   return (
     <TwitterContext.Provider
-      value={{ appStatus, currentAccount, connectWallet }}
+      value={{ appStatus, currentAccount, connectToWallet }}
     >
       {children}
     </TwitterContext.Provider>
