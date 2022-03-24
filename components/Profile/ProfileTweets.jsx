@@ -8,45 +8,6 @@ const style = {
   headerTitle: `text-xl font-bold`,
 };
 
-// const tweets = [
-//   {
-//     displayName: 'Qazi',
-//     username: 'loremloremlorem',
-//     avatar:
-//       'https://static.vecteezy.com/system/resources/thumbnails/002/002/403/small/man-with-beard-avatar-character-isolated-icon-free-vector.jpg',
-//     text: 'gm',
-//     isProfileImageNft: false,
-//     timestamp: '2020-06-01T12:00:00.000Z',
-//   },
-//   {
-//     displayName: 'Qazi',
-//     username: 'loremloremlorem',
-//     avatar:
-//       'https://static.vecteezy.com/system/resources/thumbnails/002/002/403/small/man-with-beard-avatar-character-isolated-icon-free-vector.jpg',
-//     text: 'gm',
-//     isProfileImageNft: false,
-//     timestamp: '2020-06-01T12:00:00.000Z',
-//   },
-//   {
-//     displayName: 'Qazi',
-//     username: 'loremloremlorem',
-//     avatar:
-//       'https://static.vecteezy.com/system/resources/thumbnails/002/002/403/small/man-with-beard-avatar-character-isolated-icon-free-vector.jpg',
-//     text: 'gm',
-//     isProfileImageNft: true,
-//     timestamp: '2020-06-01T12:00:00.000Z',
-//   },
-//   {
-//     displayName: 'Qazi',
-//     username: 'loremloremlorem',
-//     avatar:
-//       'https://static.vecteezy.com/system/resources/thumbnails/002/002/403/small/man-with-beard-avatar-character-isolated-icon-free-vector.jpg',
-//     text: 'gm',
-//     isProfileImageNft: false,
-//     timestamp: '2020-06-01T12:00:00.000Z',
-//   },
-// ];
-
 const ProfileTweets = () => {
   const { currentUser } = useContext(TwitterContext);
   return (
