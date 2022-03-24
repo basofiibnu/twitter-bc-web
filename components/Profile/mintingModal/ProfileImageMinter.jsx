@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import { useState, useContext } from 'react';
 import { TwitterContext } from '../../../context/TwitterContext';
 import { useRouter } from 'next/router';
 import { client } from '../../../lib/client';
@@ -10,15 +10,23 @@ import FinishedState from './FinishedState';
 import { pinJSONToIPFS, pinFileToIPFS } from '../../../lib/pinata';
 
 let metamask;
+
 if (typeof window !== 'undefined') {
   metamask = window.ethereum;
 }
 
-const getEthereumContract = async () => {
-  if (!metamask) return;
+const getEthereumContract = () => {
   const provider = new ethers.providers.Web3Provider(metamask);
   const signer = provider.getSigner();
   return new ethers.Contract(contractAddress, contractABI, signer);
+};
+
+const createPinataRequestHeaders = () => {
+  headers.forEach((header) => {
+    requestHeaders.append(header.key, header.value);
+  });
+
+  return requestHeaders;
 };
 
 const ProfileImageMinter = () => {
@@ -34,13 +42,13 @@ const ProfileImageMinter = () => {
     if (!name || !description || !profileImage) return;
     setStatus('loading');
 
-    const pinataMetadata = {
+    const pinataMetaData = {
       name: `${name} - ${description}`,
     };
 
     const ipfsImageHash = await pinFileToIPFS(
       profileImage,
-      pinataMetadata,
+      pinataMetaData,
     );
 
     await client
@@ -49,17 +57,16 @@ const ProfileImageMinter = () => {
       .set({ isProfileImageNft: true })
       .commit();
 
-    const imageMetadata = {
+    const imageMetaData = {
       name: name,
       description: description,
       image: `ipfs://${ipfsImageHash}`,
     };
 
-    const ipfsJsonHash = await pinJSONToIPFS(
-      imageMetadata,
-      pinataMetadata,
-    );
+    const ipfsJsonHash = await pinJSONToIPFS(imageMetaData);
+
     const contract = await getEthereumContract();
+
     const transactionParameters = {
       to: contractAddress,
       from: currentAccount,
@@ -69,15 +76,20 @@ const ProfileImageMinter = () => {
       ),
     };
 
-    await metamask.request({
-      method: 'eth_sendTransaction',
-      params: [transactionParameters],
-    });
+    try {
+      await metamask.request({
+        method: 'eth_sendTransaction',
+        params: [transactionParameters],
+      });
 
-    setStatus('finish');
+      setStatus('finished');
+    } catch (error) {
+      console.log(error);
+      setStatus('finished');
+    }
   };
 
-  const modalChildren = (modalStatus = status) => {
+  const renderLogic = (modalStatus = status) => {
     switch (modalStatus) {
       case 'initial':
         return (
@@ -105,7 +117,7 @@ const ProfileImageMinter = () => {
     }
   };
 
-  return <div>{modalChildren()}</div>;
+  return <>{renderLogic()}</>;
 };
 
 export default ProfileImageMinter;

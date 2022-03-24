@@ -12,10 +12,10 @@ const style = {
 
 const FinishedState = () => {
   const router = useRouter();
-  const { getCurrentUserDetails } = useContext(TwitterContext);
+  const { getCurrentUserInfo } = useContext(TwitterContext);
 
   useEffect(() => {
-    getCurrentUserDetails();
+    getCurrentUserInfo();
   }, []);
 
   return (
